@@ -1,34 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { useState } from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import Category from './components/Category/Category';
+import List from './components/List/List.lazy';
+import Order from './components/Order/Order.lazy';
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const [count, setCount] = useState(0);
+  const queryClient = new QueryClient();
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="/" element={<Category />}></Route>
+          <Route path="/list/:house" element={<List />}></Route>
+          <Route path="/order/:uid" element={<Order />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
+  );
 }
 
-export default App
+export default App;
