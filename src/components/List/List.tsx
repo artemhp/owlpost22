@@ -5,14 +5,14 @@ import Image from 'react-bootstrap/Image';
 import { ListGroup, Button } from 'react-bootstrap';
 
 interface ListProps {
-  house: string;
+  house: Date;
   type: string;
 }
 
 const List: FC<ListProps> = ({ house, type }) => (
   <>
     <div className="d-grid m-2">
-      <Button variant={type} block size="lg" className="mb-2">
+      <Button variant={type} size="lg" className="mb-2">
         {house}
       </Button>
     </div>
