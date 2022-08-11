@@ -2,9 +2,9 @@
   width: 100%;
   height: 100vh;
 }
-.btn-griffindor {
-  background-color: var(--griffindorPrimary) !important;
-  color: var(--griffindorSecondary) !important;
+.btn-gryffindor {
+  background-color: var(--gryffindorPrimary) !important;
+  color: var(--gryffindorSecondary) !important;
 }
 .btn-hufflepuff {
   background-color: var(--hufflepuffPrimary) !important;

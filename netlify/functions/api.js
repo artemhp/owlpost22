@@ -55,43 +55,43 @@ const students = {
       distance: '8010 meters',
     },
     {
-      id: '2',
+      id: '223523',
       house: 'gryffindor',
       name: 'Harry Potter',
       distance: '700 meters',
     },
     {
-      id: '2',
+      id: '23523215',
       house: 'gryffindor',
       name: 'Dean Thomas',
       distance: '1850 meters',
     },
     {
-      id: '2',
+      id: '2352523',
       house: 'gryffindor',
       name: 'Ron Weasley',
       distance: '8010 meters',
     },
     {
-      id: '2',
+      id: '2233523',
       house: 'gryffindor',
       name: 'Lavender Brown',
       distance: '4200 meters',
     },
     {
-      id: '2',
+      id: '26323',
       house: 'gryffindor',
       name: 'Fay Dunbar',
       distance: '5100 meters',
     },
     {
-      id: '2',
+      id: '23123523',
       house: 'gryffindor',
       name: 'Seamus Finnigan',
       distance: '1400 meters',
     },
     {
-      id: '2',
+      id: '2343523',
       house: 'gryffindor',
       name: 'Neville Longbottom',
       distance: '650 meters',
@@ -148,10 +148,34 @@ const students = {
 };
 
 const handler = async (event, context) => {
-  return {
-    statusCode: 200,
-    body: JSON.stringify(students),
-  };
+  const path = event.path.replace(/\.netlify\/functions\/[^/]+/, '').replaceAll('/', '');
+  console.log(path);
+  if (path === 'students') {
+    if (event.httpMethod === 'GET') {
+      if (event.queryStringParameters) {
+        const payload = event.queryStringParameters;
+        if (payload?.house) {
+          const filteredList = students.list.filter(({ house }) => house === payload?.house);
+          return {
+            statusCode: 200,
+            body: JSON.stringify(filteredList),
+          };
+        }
+      }
+      return {
+        statusCode: 200,
+        body: JSON.stringify(students.list),
+      };
+    }
+    if (event.httpMethod === 'POST') {
+      return {
+        statusCode: 200,
+        body: JSON.stringify(students),
+      };
+    }
+  }
+
+  // console.log(context);
 };
 
 export { handler };

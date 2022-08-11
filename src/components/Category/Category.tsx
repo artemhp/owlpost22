@@ -10,8 +10,8 @@ const Category: FC<CategoryProps> = () => {
   return (
     <div className={styles.Category}>
       <ButtonGroup vertical className="fullScreen">
-        <Button variant="griffindor" size="lg" onClick={() => navigate(`/list/griffindor`)}>
-          Griffindor
+        <Button variant="gryffindor" size="lg" onClick={() => navigate(`/list/gryffindor`)}>
+          Gryffindor
         </Button>
         <Button variant="hufflepuff" size="lg" onClick={() => navigate(`/list/hufflepuff`)}>
           Hufflepuff
