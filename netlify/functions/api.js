@@ -148,9 +148,10 @@ const students = {
 };
 
 const handler = async (event, context) => {
-  const path = event.path.replace(/\.netlify\/functions\/[^/]+/, '').replaceAll('/', '');
+  const path = event.path.replace(/\.netlify\/functions\/[^/]+/, '');
   console.log(path);
-  if (path === 'students') {
+  debugger;
+  if (path.includes('students')) {
     if (event.httpMethod === 'GET') {
       if (event.queryStringParameters) {
         const payload = event.queryStringParameters;

@@ -3,49 +3,52 @@ import styles from './List.module.css';
 import Image from 'react-bootstrap/Image';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import { ListGroup, Button } from 'react-bootstrap';
+import { ListGroup, Button, Alert } from 'react-bootstrap';
 
-interface ListProps {
-  house: Date;
-  type: string;
-}
+interface ListProps {}
 
-const List: FC<ListProps> = ({ house, type }) => {
+const List: FC<ListProps> = () => {
+  let { house } = useParams();
+
   let navigate = useNavigate();
-  const { isLoading, data, isError } = useQuery(['getStudentsList'], () =>
-    axios
-      .get(`/.netlify/functions/api/students`, {
-        params: {
-          house: type,
-        },
-      })
-      .then(({ data }) => data),
+  const goBack = () => navigate(-1);
+
+  const { data: studentsList } = useQuery(['getStudentsList'], () =>
+    axios.get(`/.netlify/functions/api/students`, { params: { house } }).then(({ data }) => data),
   );
-  const handleClick = (id) => () => {
-    navigate(`/order/${id}`);
-  };
+  if (isError) {
+    return (
+      <Alert className="m-2" variant="danger">
+        Error while fetching from the server.
+      </Alert>
+    );
+  }
+  if (isLoading) {
+    return (
+      <Alert className="m-2" variant="warning">
+        Loading...
+      </Alert>
+    );
+  }
   return (
     <>
       <div className="d-grid m-2">
-        <Button variant={type} size="lg" className="mb-2">
-          {house}
+        <Button variant={house} size="lg" className="mb-2" onClick={goBack}>
+          Go back to <strong>Owl Post</strong>
         </Button>
       </div>
       <ListGroup variant="flush">
-        {data &&
-          data.map((el, index) => (
-            <ListGroup.Item key={el.id} onClick={handleClick(el.id)}>
-              <div className="d-grid gap-2" style={{ gridTemplateColumns: '60px 1fr auto', alignItems: 'center' }}>
-                <span className="float-start" style={{ width: '60px' }}>
-                  <Image fluid src={`/assets/logo-${type}.png`} />
-                </span>
-                <span>{el.name}</span>
-                <span className="float-end text-muted">{el.distance}</span>
-              </div>
-            </ListGroup.Item>
-          ))}
+        {studentsList.map((el) => (
+          <ListGroup.Item className={styles.listItem} key={el.id} onClick={() => navigate(`/order/${el.id}`)}>
+            <span className="float-start" style={{ width: '60px' }}>
+              <Image fluid src={`/assets/logo-${house}.png`} />
+            </span>
+            <span>{el.name}</span>
+            <span className="float-end text-muted">{el.distance}</span>
+          </ListGroup.Item>
+        ))}
       </ListGroup>
     </>
   );

@@ -1,3 +1,6 @@
-.List {
-  margin: 10px;
+.listItem {
+  display: grid;
+  grid-template-columns: 4rem 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
 }

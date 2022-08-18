@@ -8,11 +8,6 @@ import Category from './components/Category/Category';
 import List from './components/List/List.lazy';
 import Order from './components/Order/Order.lazy';
 
-function ComponentHouse() {
-  let { house } = useParams();
-  return <List house={capitalize(house)} type={house} />;
-}
-
 function App() {
   const [count, setCount] = useState(0);
   const queryClient = new QueryClient();
@@ -21,8 +16,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Category />}></Route>
-          <Route path="/list/:house" element={<ComponentHouse />}></Route>
-          <Route path="/order/:student" element={<Order />}></Route>
+          <Route path="/list/:house" element={<List />}></Route>
+          <Route path="/order/:studentId" element={<Order />}></Route>
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
