@@ -155,6 +155,13 @@ const handler = async (event, context) => {
     if (event.httpMethod === 'GET') {
       if (event.queryStringParameters) {
         const payload = event.queryStringParameters;
+        if (payload?.id) {
+          const filteredList = students.list.find(({ id }) => id === payload?.id);
+          return {
+            statusCode: 200,
+            body: JSON.stringify(filteredList),
+          };
+        }
         if (payload?.house) {
           const filteredList = students.list.filter(({ house }) => house === payload?.house);
           return {

@@ -15,7 +15,11 @@ const List: FC<ListProps> = () => {
   let navigate = useNavigate();
   const goBack = () => navigate(-1);
 
-  const { data: studentsList } = useQuery(['getStudentsList'], () =>
+  const {
+    data: studentsList,
+    isError,
+    isLoading,
+  } = useQuery(['getStudentsList'], () =>
     axios.get(`/.netlify/functions/api/students`, { params: { house } }).then(({ data }) => data),
   );
   if (isError) {
