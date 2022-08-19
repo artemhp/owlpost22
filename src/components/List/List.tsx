@@ -22,19 +22,8 @@ const List: FC<ListProps> = () => {
   } = useQuery(['getStudentsList'], () =>
     axios.get(`/.netlify/functions/api/students`, { params: { house } }).then(({ data }) => data),
   );
-  if (isError) {
-    return (
-      <Alert className="m-2" variant="danger">
-        Error while fetching from the server.
-      </Alert>
-    );
-  }
-  if (isLoading) {
-    return (
-      <Alert className="m-2" variant="warning">
-        Loading...
-      </Alert>
-    );
+  if (!studentsList) {
+    return null;
   }
   return (
     <>

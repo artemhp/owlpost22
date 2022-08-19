@@ -1,8 +1,10 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './Order.module.css';
 import { useParams } from 'react-router-dom';
 import { Alert, Form, Col, Button, InputGroup } from 'react-bootstrap';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 
 interface OrderProps {}
 
@@ -14,23 +16,33 @@ const Order: FC<OrderProps> = () => {
     formState: { errors },
   } = useForm();
   const [showCongratulations, setShowCongratulation] = useState(false);
+
+  const { data: studentInfo } = useQuery(['getStudent'], () =>
+    axios.get(`/.netlify/functions/api/students`, { params: { id: studentId } }).then(({ data }) => data),
+  );
+
   const onSubmit = (data) => {
-    console.log(data);
     setShowCongratulation(true);
   };
+
+  if (!studentInfo) {
+    return null;
+  }
+
   return (
     <div className={styles.Order}>
       <section className="p-4 bg-black bg-opacity-10 text-dark text-center">
         <p>Send an owl to:</p>
-        <h1>studentName</h1>
+        <h1>{studentInfo.name}</h1>
         <p>
-          from Griffindor, <br /> who is in studentDistance from here.
+          from <span className={styles.houseTitle}>{studentInfo.house}</span>, <br /> who is in {studentInfo.distance} from
+          here.
         </p>
       </section>
       {showCongratulations && (
         <section className="p-5 mb-2 bg-success bg-opacity-10 text-success text-center">
           <h4>Congratulations!</h4>
-          <div>Your owl is on the way to Colin Creevey</div>
+          <div>Your owl is on the way to {studentInfo.name}</div>
         </section>
       )}
 
