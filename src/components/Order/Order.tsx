@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import styles from './Order.module.css';
 import { useParams } from 'react-router-dom';
 import { Alert, Form, Col, Button, InputGroup } from 'react-bootstrap';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 
 interface OrderProps {}
@@ -13,6 +13,7 @@ const Order: FC<OrderProps> = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
   const [showCongratulations, setShowCongratulation] = useState(false);
@@ -21,7 +22,11 @@ const Order: FC<OrderProps> = () => {
     axios.get(`/.netlify/functions/api/students`, { params: { id: studentId } }).then(({ data }) => data),
   );
 
+  const sendLetter = useMutation((api) => axios.post(`/.netlify/functions/api/students`, api));
+
   const onSubmit = (data) => {
+    sendLetter.mutate(data);
+    reset();
     setShowCongratulation(true);
   };
 
@@ -35,8 +40,8 @@ const Order: FC<OrderProps> = () => {
         <p>Send an owl to:</p>
         <h1>{studentInfo.name}</h1>
         <p>
-          from <span className={styles.houseTitle}>{studentInfo.house}</span>, <br /> who is in {studentInfo.distance} from
-          here.
+          from <span className={styles.houseTitle}>{studentInfo.house}</span>, <br /> who is in {studentInfo.distance}{' '}
+          from here.
         </p>
       </section>
       {showCongratulations && (

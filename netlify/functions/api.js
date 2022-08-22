@@ -1,3 +1,5 @@
+const querystring = require('querystring');
+
 const students = {
   list: [
     {
@@ -149,8 +151,6 @@ const students = {
 
 const handler = async (event, context) => {
   const path = event.path.replace(/\.netlify\/functions\/[^/]+/, '');
-  console.log(path);
-  debugger;
   if (path.includes('students')) {
     if (event.httpMethod === 'GET') {
       if (event.queryStringParameters) {
@@ -178,12 +178,10 @@ const handler = async (event, context) => {
     if (event.httpMethod === 'POST') {
       return {
         statusCode: 200,
-        body: JSON.stringify(students),
+        body: event.body,
       };
     }
   }
-
-  // console.log(context);
 };
 
 export { handler };
