@@ -175,6 +175,7 @@ const handler = async (event, context) => {
         body: JSON.stringify(students.list),
       };
     }
+  } else if (path.includes('letter')) {
     if (event.httpMethod === 'POST') {
       return {
         statusCode: 200,

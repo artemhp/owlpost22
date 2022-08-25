@@ -19,7 +19,7 @@ const List: FC<ListProps> = () => {
     data: studentsList,
     isError,
     isLoading,
-  } = useQuery(['getStudentsList'], () =>
+  } = useQuery(['students'], () =>
     axios.get(`/.netlify/functions/api/students`, { params: { house } }).then(({ data }) => data),
   );
   if (!studentsList) {

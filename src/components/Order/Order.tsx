@@ -22,7 +22,7 @@ const Order: FC<OrderProps> = () => {
     axios.get(`/.netlify/functions/api/students`, { params: { id: studentId } }).then(({ data }) => data),
   );
 
-  const sendLetter = useMutation((api) => axios.post(`/.netlify/functions/api/students`, api));
+  const sendLetter = useMutation((api) => axios.post(`/.netlify/functions/api/letter`, api));
 
   const onSubmit = (data) => {
     sendLetter.mutate(data);
