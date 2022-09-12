@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 import styles from './Category.module.css';
 import { Button, ButtonGroup } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 
-interface CategoryProps {}
+export interface CategoryProps {
+  navigate: (route: string) => void;
+}
 
-const Category: FC<CategoryProps> = () => {
-  let navigate = useNavigate();
+const Category: FC<CategoryProps> = ({ navigate }) => {
   return (
     <div className={styles.Category}>
       <ButtonGroup vertical className="fullScreen">

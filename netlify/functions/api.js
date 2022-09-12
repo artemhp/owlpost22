@@ -175,11 +175,11 @@ const handler = async (event, context) => {
         body: JSON.stringify(students.list),
       };
     }
-  } else if (path.includes('letter')) {
+  } else if (path.includes('mail')) {
     if (event.httpMethod === 'POST') {
       return {
         statusCode: 200,
-        body: event.body,
+        body: 'success',
       };
     }
   }
