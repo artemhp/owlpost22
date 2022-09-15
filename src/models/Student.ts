@@ -1,8 +1,8 @@
-export type house = 'gryffindor' | 'slytherin';
+export type THouse = 'gryffindor' | 'slytherin' | 'hufflepuff' | 'ravenclaw';
 
-export default interface Student {
+export default interface TStudent {
   id: number;
-  house: house;
+  house: THouse;
   name: string;
   distance: string;
 }

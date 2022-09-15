@@ -1,8 +1,9 @@
 import React, { lazy, Suspense } from 'react';
+import { OrderProps } from './Order';
 
 const LazyOrder = lazy(() => import('./Order'));
 
-const Order = (props: JSX.IntrinsicAttributes & { children?: React.ReactNode; }) => (
+const Order = (props: OrderProps & { children?: React.ReactNode }) => (
   <Suspense fallback={null}>
     <LazyOrder {...props} />
   </Suspense>

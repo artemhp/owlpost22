@@ -1,39 +1,35 @@
 import React, { FC } from 'react';
 import Image from 'react-bootstrap/Image';
 import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ListGroup, Button, Alert } from 'react-bootstrap';
 
 import styles from './List.module.css';
-import studentService from '../../services/students'
-import { house } from '../../models/Student';
+import studentService from '../../services/students';
+import { THouse } from '../../models/Student';
 
 export interface ListProps {
-  navigate: (route: string | number) => void;
+  house: THouse;
 }
 
-const List: FC<ListProps> = ({ navigate }): JSX.Element => {
-  let { house } = useParams<{ house: house }>();
-  const goBack = () => navigate('asd');
+const List: FC<ListProps> = ({ house }): JSX.Element => {
+  let navigate = useNavigate();
 
-  const { data, isError, isLoading } = useQuery(
-    [`students-list-${house}`],
-    () => studentService.getStudents()
+  const { data, isError, isLoading } = useQuery([`students-list-${house}`], () =>
+    studentService.getStudents(house),
   );
 
-  if (isLoading || data === undefined) return <Alert variant="info">Loading...</Alert>;
-  if (isError) return <Alert variant="danger">Error</Alert>;
-  
+  if (isLoading || data === undefined) {
+    return <Alert variant="info">Loading...</Alert>;
+  }
+  if (isError) {
+    return <Alert variant="danger">Error</Alert>;
+  }
 
   return (
     <>
       <div className="d-grid m-2">
-        <Button
-          variant={house}
-          size="lg" 
-          className="mb-2"
-          onClick={goBack}
-        >
+        <Button variant={house} size="lg" className="mb-2" onClick={() => navigate('-1')}>
           Go back to <strong>Owl Post</strong>
         </Button>
       </div>
@@ -48,9 +44,7 @@ const List: FC<ListProps> = ({ navigate }): JSX.Element => {
               <Image fluid src={`/assets/logo-${house}.png`} />
             </span>
             <span>{student.name}</span>
-            <span className="float-end text-muted">
-              {student.distance}
-            </span>
+            <span className="float-end text-muted">{student.distance}</span>
           </ListGroup.Item>
         ))}
       </ListGroup>

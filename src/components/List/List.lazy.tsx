@@ -1,11 +1,11 @@
 import React, { lazy, Suspense } from 'react';
+import { ListProps } from './List';
 
 const LazyList = lazy(() => import('./List'));
-import { ListProps } from './List';
 
 const List = (props: ListProps) => (
   <Suspense fallback={null}>
-    <LazyList {...props} />    
+    <LazyList {...props} />
   </Suspense>
 );
 

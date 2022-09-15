@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write"
+    "prettier-format": "prettier --config .prettierrc.js 'src/**/*.ts' --write"
   },
   "dependencies": {
     "@netlify/functions": "^1.2.0",
@@ -30,6 +30,6 @@
     "@vitejs/plugin-react": "^2.0.0",
     "prettier": "^2.7.1",
     "typescript": "^4.7.4",
-    "vite": "^3.0.0"
+    "vite": "^3.0.0"    
   }
 }

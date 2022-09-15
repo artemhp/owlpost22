@@ -4,15 +4,15 @@ import styles from './Order.module.css';
 import { useParams } from 'react-router-dom';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import studentService from '../../services/students'
-import mailService from '../../services/mails'
+import studentService from '../../services/students';
+import mailService from '../../services/mails';
 import Mail from '../../models/Mail';
 
-interface OrderProps { }
+export interface OrderProps {
+  studentId: string | undefined;
+}
 
-const Order: FC<OrderProps> = (): JSX.Element => {
-
-  let { studentId } = useParams<{ studentId: string }>();
+const Order: FC<OrderProps> = ({ studentId }): JSX.Element => {
   const {
     register,
     handleSubmit,
@@ -22,13 +22,12 @@ const Order: FC<OrderProps> = (): JSX.Element => {
 
   const [showCongratulations, setShowCongratulation] = useState<boolean>(false);
 
-  const { data, isError, isLoading } = useQuery(
-    [`student-${studentId}`],
-    () => studentService.getStudent(Number(studentId))
+  const { data, isError, isLoading } = useQuery([`student-${studentId}`], () =>
+    studentService.getStudent(Number(studentId)),
   );
 
   const sendLetter = useMutation((api: Mail) => mailService.send(api), {
-    onSuccess: () => setShowCongratulation(true)
+    onSuccess: () => setShowCongratulation(true),
   });
 
   const onSubmit = (data: Mail) => {
@@ -73,9 +72,7 @@ const Order: FC<OrderProps> = (): JSX.Element => {
           <Form.Control.Feedback type="invalid">
             Please input your name.
           </Form.Control.Feedback>
-          <Form.Control.Feedback>
-            Looks good!
-          </Form.Control.Feedback>
+          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Message:</Form.Label>
@@ -90,9 +87,7 @@ const Order: FC<OrderProps> = (): JSX.Element => {
           <Form.Control.Feedback type="invalid">
             Please input your message.
           </Form.Control.Feedback>
-          <Form.Control.Feedback>
-            Looks good!
-          </Form.Control.Feedback>
+          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
         </Form.Group>
         <section className="d-grid gap-2">
           <Button type="submit" variant="gryffindor" className="mb-2 p-2">
