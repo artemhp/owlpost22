@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
-import styles from './List.module.css';
 import Image from 'react-bootstrap/Image';
 import { useQuery } from '@tanstack/react-query';
-import studentService from '../../services/students'
-import { useNavigate, useParams } from 'react-router-dom';
-import { house } from '../../models/Student';
-
+import { useParams } from 'react-router-dom';
 import { ListGroup, Button, Alert } from 'react-bootstrap';
+
+import styles from './List.module.css';
+import studentService from '../../services/students'
+import { house } from '../../models/Student';
 
 export interface ListProps {
   navigate: (route: string | number) => void;
@@ -14,7 +14,6 @@ export interface ListProps {
 
 const List: FC<ListProps> = ({ navigate }): JSX.Element => {
   let { house } = useParams<{ house: house }>();
-
   const goBack = () => navigate('asd');
 
   const { data, isError, isLoading } = useQuery(
@@ -22,20 +21,16 @@ const List: FC<ListProps> = ({ navigate }): JSX.Element => {
     () => studentService.getStudents()
   );
 
-  if (isLoading || data === undefined) {
-    return <Alert variant="info">Loading...</Alert>;
-  }
-
-  if (isError) {
-    return <Alert variant="danger">Error</Alert>;
-  }
+  if (isLoading || data === undefined) return <Alert variant="info">Loading...</Alert>;
+  if (isError) return <Alert variant="danger">Error</Alert>;
+  
 
   return (
     <>
       <div className="d-grid m-2">
         <Button
           variant={house}
-          size="lg"
+          size="lg" 
           className="mb-2"
           onClick={goBack}
         >
